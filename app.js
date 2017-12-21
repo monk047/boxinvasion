@@ -10,6 +10,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+var socket = require('socket.io');
 
 mongoose.connect('mongodb://localhost/loginapp');
 var db = mongoose.connection;
@@ -85,6 +86,21 @@ app.use('/users', users);
 // Set Port
 app.set('port', (process.env.PORT || 3000));
 
-app.listen(app.get('port'), function(){
-	console.log('Server started on port '+app.get('port'));
+
+var server=app.listen(app.get('port'), function(){
+    console.log('Server started on port '+app.get('port'));
+});
+var io = socket(server);
+//on connection
+io.on('connection', (socket)=>{
+    console.log('Socket connection ID :', socket.id);
+// when user is typing ,show typing message to all connected user
+socket.on('typing', function (data){
+    socket.broadcast.emit('typing', data);
+});
+// chat data
+socket.on('chat', function (data) {
+    // console.log(data);
+    io.sockets.emit('chat', data);
+});
 });
