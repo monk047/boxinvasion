@@ -75,8 +75,10 @@ app.use(function (req, res, next) {
 });
 
 
-
+//Different routes
+//Public routes
 app.use('/', routes);
+//Private routes redirected when login request is validated
 app.use('/users', users);
 
 // Set Port
