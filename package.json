@@ -2,7 +2,7 @@
   "name": "box_invasion",
   "version": "1.0.0",
   "description": "BOX INVASION. Developed at FH Kiel. Winter Semester 2017.",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,7 +13,7 @@
   "keywords": [
     "game"
   ],
-  "author": "Abul B S Tarannum, Marvi Islam, Ibtehaj-ul Hasan,",
+  "author": "Abul B S Tarannum, Marvi Islam, Ibtehaj-ul Hasan,Muhammad Uamar,Niaz Hussain,Shafiq Aslam",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/monk047/boxinvasion/issues"
