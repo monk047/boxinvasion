@@ -43,10 +43,49 @@ socket.on('not typing', function(){
     console.log("not typing");
     document.getElementById("typingMessage").innerHTML="";
 });
+socket.on('invitefalied', function(data){
+    alert(data.msg);
+});
+socket.on('2invitesuccess', function(data){
+    alert(data.msg);
+});
+socket.on('invitesuccess', function(data){
+    if(data.username===$("#user").val())
+    {
+       $("#sendInvitaion").hide();
+       $("#waitForresponse").show();
+        $("#box-invasion-chat-div").show();
+    }
+    else//if(data.usernameUID!==$("#user").val())
+    {
+        $("#sendInvitaion").fadeOut();
+        $("#invitaionReceived").fadeIn();
+        $("#box-invasion-chat-div").fadeIn();
+        console.log("invitesuccess in client js data.usernameUID!==user:"+data.username);
+    }
+    console.log("invitesuccess in client js else case");
+   // $("#box-invasion-chat-div").fadeIn();
+});
+socket.on('setusername',function (data) {
+document.getElementById(uID).setAttribute('value',data.UID);
+})
 $( document ).ready(function() {
     setInterval(function(){updateTimeAgo()}, 5000);
     //updateTimeAgo();
+   /* socket.emit('invitegame', {
+        username: "test"
+    });*/
     user=$("#user").val();
+    socket.emit('setusername', {
+        username: user
+    });
+    assignUID(user);
+  /*  */
+   /* if($("#canvas").length){
+        socket.emit('startgame', {
+            startgame: user
+        });
+    }*/
     $( "#send" ).click(function() {
         var nullMessage=message.value.replace(/\s/g, '');
         if(nullMessage!== "")
@@ -55,6 +94,18 @@ $( document ).ready(function() {
                 user: user
             });
         message.value = "";
+    });
+    $( "#sendInvitaion" ).click(function() {
+        var inviteusername=$("#inviteusername").val().replace(/\s/g, '');
+        console.log("Client JS: "+inviteusername)
+       // if(inviteusername!== "")
+        socket.emit('startgame', {
+            startgame: user,
+            username:user
+        });
+        /*socket.on('playgame', function(){
+            $("#box-invasion-chat-div").fadeIn();
+        });*/
     });
     document.getElementById("message").addEventListener("keypress",function(e){
         if (e.key === "Enter") {
@@ -84,6 +135,7 @@ $( document ).ready(function() {
         socket.emit('not typing');
     });
 ////////////////////////////////////////////
+    
 //showing emoji by clicking emoji btn
     loadEmoji();
     $("#emoji").click(function(e) {
@@ -111,6 +163,14 @@ $( document ).ready(function() {
 
     ////////////////////////////////////////////////
 });
+function assignUID(user) {
+    if($("#canvas").length){
+
+        socket.emit('setUID', {
+            uid: user
+        });
+    }
+}
 /**
  * @Niaz Hussain
  * method getTimeAgo

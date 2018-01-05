@@ -15,6 +15,7 @@ mongoose.connect('mongodb://localhost/loginapp');
 var db = mongoose.connection;
 //mongoose.Promise=global.Promise;
 //var db = mongoose.createConnection('mongodb://localhost/loginapp');
+var uList=[];
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -89,12 +90,21 @@ var server = app.listen(app.get('port'), function(){
 
 
 //********************************************************//
-var io = socket(server);
 //on connection
+// Make io accessible to our router
+app.use(function(req,res,next){
+    req.io = io;
+    //req.socket=socket;
+    next();
+});
+var totalCount=0;
+var io = socket(server);
 io.on('connection', (socket)=>{
-
+    var room="Testing";
       
       console.log('made socket connection \n'+socket.id);
+    /* console.log("session in app.js:"+user);*/
+// when user is typing ,show typing message to all connected user
       
 
 // when user is typing ,show typing message to all connected user
@@ -110,7 +120,7 @@ io.on('connection', (socket)=>{
       socket.on('chat', function (data) {
 
           console.log("client id: "+ socket.id);
-          io.sockets.emit('chat', data);
+          io.to('room').emit('chat', data);
       });
 
       socket.on('invite', function(data) {
@@ -120,5 +130,95 @@ io.on('connection', (socket)=>{
       socket.on('game', function(data) {
 
       });
+      /*@ Shafeak for gamestart*/
+    socket.on('startgame', function (data) {
+        var checkwaiting = false;
+        io.in('waiting').clients((err, clients) => {
+            if(clients.length > 0){
+                checkwaiting = true;
+                socket.gameUID=data.startgame;
+                socket.join(socket.gameUID);
+                console.log("app.js startgame:"+data.username);
+                io.sockets.connected[clients[0]].leave("waiting");
+                io.sockets.connected[clients[0]].gameUID = socket.gameUID;
+                io.sockets.connected[clients[0]].join(socket.gameUID);
+                /*io.to(socket.gameUID).emit('playgame',{
+                    username:data.username
+                });*/
+                io.to('room').emit('invitesuccess', {
+                    username:data.username,
+                    cid:io.sockets.connected[clients[0]].usernameUID,
+                    sid:socket.id
+                });
+            }
+            else{
+                console.log("app.js waiting:"+data.username);
+                socket.join('waiting');
+            }
+        });
+    });
+    //@shafiq:saving user for socket room
+    socket.on('setusername', function (data){
+        console.log("app.js setusername:"+data.username);
+       // var rm = io.sockets.adapter.rooms['room'];
+        console.log("count :"+totalCount)
+        console.log("lentgh of room :"+Object.keys('my_room').length);
+        /*if(socket.rooms[room].count<2)
+            socket.join('my_room');*/
+        if(totalCount<2)
+        {
+            socket.join('room');
+            socket.usernameUID=data.username;
+            totalCount++;
+        } 
+    });
+    socket.on('invitegame', function (data) {
+    if(totalCount>2) {
+     return true;
+    }
+console.log(totalCount)
+        console.log("app.js invitegame:"+data.username);
+            var userexist=false;
+           io.clients((err, clients) => {
+            if(clients.length > 0){
+                for (var i = 0; i < clients.length; i++) {
+                        if(io.sockets.connected[clients[i]].usernameUID === data.username){
+                        console.log("app.js invitegame IF:"+data.username);
+                        console.log("app.js clients: "+clients[i]);
+                        console.log("users in if :"+data.username);
+                        //Do something
+                        userexist = true;
+                          //  io.sockets.connected[clients[i]].join(socket.id)
+                       /* io.to(socket.id).emit('invitesuccess', {
+                            username:data.username,
+                            cid:io.sockets.connected[clients[i]].usernameUID,
+                            sid:socket.id
+                        });*/
+                       console.log("socket :"+socket.rooms);
+                            socket.broadcast.to('room').emit('invitesuccess', {
+                                username:data.username,
+                                cid:io.sockets.connected[clients[i]].usernameUID,
+                                sid:socket.id
+                            });
+                           /* io.to(io.sockets.connected[clients[i]].id).emit('invitesuccess', {
+                                username:data.username,
+                                cid:io.sockets.connected[clients[i]].usernameUID,
+                                sid:socket.id
+                            });*/
+                        break;
+                    }
+                }
+            }
+            else{//if(userexist===false)
+                console.log("app.js invitegame ELSE:"+data.username);
+                io.to(socket.id).emit('invitefalied', {
+                    msg: "failed"
+                });
+            }
 
+});
+    });
+    socket.on('disconnect',function () {
+        console.log("disconenct");
+    });
 });

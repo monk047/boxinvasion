@@ -10,7 +10,26 @@
     <div class="row chat-window col-xs-4 col-md-4" id="chat_window" style="margin-left:-50px;">
         <!--<div class="col-xs-12 col-md-12">-->
         <div class="panel">
-                   <div id="box-invasion-chat-div" class=" panel-primary controls">
+            <div id="sendInvitaion" ><span  class="input-group-btn">
+                 <input id="uID" type="hidden" value="" />
+                                   <input id="inviteusername"  type="text" class="form-control " style="padding-left: 0;padding-right: 0" placeholder="Type your user here..." />
+                             <button class="btn btn-primary"  id="sendInvitaionBtn" >
+                Send</button>
+                        </span></div>
+            <div id="waitForresponse" style="display: none" ><span  class="input-group-btn">
+                 <input id="uID" type="hidden" value="" />
+                                   <input id="res"  type="text" class="form-control " style="padding-left: 0;padding-right: 0" placeholder="Waiting for Response" />
+                             <button class="btn btn-primary"  id="resBTN" >
+                Waiting</button>
+                        </span></div>
+             <div id="invitaionReceived" style="display: none" > <span   class="input-group-btn">
+                 <input id="temp" type="hidden" value="" />
+                                   <input id="tempBTN"  type="text" class="form-control " style="padding-left: 0;padding-right: 0" placeholder="Hi" />
+                             <button class="btn btn-primary"  id="inviteuserbtn" >
+                Accept</button>
+                        </span></div>
+
+                   <div id="box-invasion-chat-div" class=" panel-primary controls" style="display: none;">
                 <h2 class="panel-heading">Discussion</h2>
                        <div id="box-invasion-chat-win wrapper" style="margin-bottom: 0px" class="">
                     <div id="messageArea">
