@@ -1,2 +1,77 @@
+<<<<<<< HEAD
  <h2 class="page-header">Dashboard</h2>
 <p>Welcome {{username}} to your dashboard</p>  
+=======
+<h3 class="page-header text-center">Connect the dots and capture a Box!</h3>
+<p class="text-center">Welcome {{title}}</p>
+<p id="token" hidden class="text-center">{{token}}</p>
+
+ <head>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+
+ </head>
+<div class="container container-margin" style="max-width: 1400px;">
+    <div class="row chat-window col-xs-4 col-md-4" id="chat_window" style="margin-left:-50px;">
+        <!--<div class="col-xs-12 col-md-12">-->
+        <div class="panel">
+                   <div id="box-invasion-chat-div" class=" panel-primary controls">
+                <h2 class="panel-heading">Discussion</h2>
+                       <div id="box-invasion-chat-win wrapper" style="margin-bottom: 0px" class="">
+                    <div id="messageArea">
+                        <div id="typingMessage" > </div>
+                    </div>
+                    <input id="user" type="hidden" value="{{userName}}" />
+
+                            <div class="input-group" style="width: inherit;margin-bottom: 0px">
+                               <span class="input-group-addon" id="basic-addon1" >
+                                    {{userName}}
+
+
+                               </span>
+                               <input id="message"  type="text" class="form-control " style="padding-left: 0;padding-right: 0" placeholder="Type your message here..." />
+
+                        <span class="input-group-btn">
+                                    <input id="emoji" type="image" height="34" style="padding-left: 0;padding-right: 0"  src="/images/emojiicon.png" title="emoji" class="btn btn-default"/>
+                            <button class="btn btn-primary"  id="send" >
+                                Send</button>
+                        </span>
+
+                           </div>
+                           <div id="emojiWrapper">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="row col-xs-4 col-md-4" id="game_area" style="margin-left:0px;">
+        <canvas id="canvas"></canvas>
+
+    </div>
+    
+    <script src="/js/socket/socketclient.js"><{{!}}/script>
+    <script src="/js/chat/chatclient.js"><{{!}}/script>
+    <script src="/js/game/gameclient.js"><{{!}}/script>
+
+
+    <div class="row right-panel col-xs-4 col-md-4" id="right_panel_1" style="margin-right:-70px;">
+
+    <div class="row right-panel col-xs-4 col-md-4" id="right_panel_1" style="margin-right:-50px;">
+
+        <div class="panel sub-right-panel col-xs-4 col-md-4" id="game_options" >
+
+        </div>
+        <div class="panel sub-right-panel col-xs-4 col-md-4" id="player_stats">
+
+        </div>
+        <div class="panel sub-right-panel col-xs-4 col-md-4" id="game_messages">
+
+        </div>
+    </div>
+</div>
+>>>>>>> dev

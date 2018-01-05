@@ -1,11 +1,15 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
+
+
 
 // User Schema
 var UserSchema = mongoose.Schema({
 	username: {
 		type: String,
-		index:true
+		index:true,
+		unique: true
 	},
 	password: {
 		type: String
@@ -14,6 +18,9 @@ var UserSchema = mongoose.Schema({
 		type: String
 	},
 	name: {
+		type: String
+	},
+	token: {
 		type: String
 	}
 });
