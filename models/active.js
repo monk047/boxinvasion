@@ -29,7 +29,7 @@ module.exports.getUserByID = function(id, callback){
 
 module.exports.addActive = function(active, callback){
 
-	active.save(callback);
+		active.save(callback);
 }
 
 module.exports.updateActive = function (active, callback){

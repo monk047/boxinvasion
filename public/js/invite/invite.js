@@ -113,7 +113,7 @@ $( document ).ready(function() {
                 if(data.username===thisUser)
                 {
                     document.getElementById(data.requestFromId).innerText="Already Playing";
-                    document.getElementById(data.requestFromId).disabled=false;
+                    document.getElementById(data.requestFromId).disabled=true;
                 }
                 socket.emit('inviteAccepted', {
                     acceptedToId:data.requestFromId,
@@ -149,7 +149,7 @@ $( document ).ready(function() {
                 if(data.username===thisUser)
                 {
                     document.getElementById(data.acceptedById).innerText="Already Playing";
-                    document.getElementById(data.acceptedById).disabled=false;
+                    document.getElementById(data.acceptedById).disabled=true;
                 }
                 socket.emit('playgame', {
                     acceptedToId:data.userid,
@@ -180,10 +180,10 @@ $( document ).ready(function() {
                     document.getElementById(data.rejectedById).innerText="Challenge";
                     document.getElementById(data.rejectedById).disabled=false;
                 }
-                socket.emit('playgame', {
+                /*socket.emit('playgame', {
                     msg:"start to playgame",
 
-                });
+                });*/
             }
         });
 

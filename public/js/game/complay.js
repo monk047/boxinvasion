@@ -34,10 +34,6 @@ for (var i = dotX; i < numberOfDots; i++) {
 $( document ).ready(function() {
 
 
-    //alert("called");
-
-
-
     $("#Leave_Game").hide();
 
     $( "#Play" ).click(function() {
