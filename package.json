@@ -4,6 +4,7 @@
   "description": "BOX INVASION. Developed at FH Kiel. Winter Semester 2017.",
   "main": "server.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -13,6 +14,9 @@
   "keywords": [
     "game"
   ],
+  "engines": {
+    "node" : "8.8.1"
+  },
   "author": "Abul B S Tarannum, Marvi Islam, Ibtehaj-ul Hasan,Umar Shahid,Niaz Hussain ,Shafiq Aslam",
   "license": "ISC",
   "bugs": {
