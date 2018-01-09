@@ -279,6 +279,6 @@
 
 
 function End() {
-    //alert("called");
+    alert("called");
     document.getElementById("Leave_Game").click();
 }

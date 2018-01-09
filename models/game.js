@@ -21,9 +21,5 @@ module.exports.clearTable = function(callback) {
 	Game.remove({}, callback);
 	
 }
-module.exports.getGame = function (callback) {
-
-    Game.find({}, callback);
-}
 
 
