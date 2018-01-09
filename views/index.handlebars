@@ -1,2 +1,185 @@
- <h2 class="page-header">Dashboard</h2>
-<p>Welcome to your dashboard</p>  
+<h3 class="page-header text-center" xmlns="http://www.w3.org/1999/html">Connect the dots and capture a Box!</h3>
+<p class="text-center">Welcome {{title}}</p>
+
+<p id="token" hidden value="{{token}}" class="text-center">{{token}}</p>
+
+<input id="token1" type="hidden" value="{{token}}"/>
+
+<p class="text-center" id="result">  </p>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="modal_title" class="modal-title text-center"></h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center" id="modal_question">Do you want to play again?</p>
+            </div>
+
+            <div class="modal-footer">
+                <form method="post" action="/">
+                    <button type="button" class="btn btn-default" id="modal-btn-yes">Yes</button>
+                    <!--<button type="button" class="btn btn-primary" id="modal-btn-no">No</button>-->
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--invitationModal-->
+<div id="invitationModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="invitationModal_title" class="modal-title text-center"></h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center" id="invitationModal_question">Do you want to play again?</p>
+            </div>
+
+            <div class="modal-footer">
+                <form method="post" action="/">
+                    <button type="button" class="btn btn-default" id="invitaion-btn-yes">Yes</button>
+                    <button type="button" class="btn btn-primary" id="invitaion-btn-no">No</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--invitationModal-->
+<div id="invitationAcceptedModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="invitationAcceptedModal_title" class="modal-title text-center"></h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center" id="invitationAcceptedModal_Info">Do you want to play again?</p>
+            </div>
+            <div class="modal-footer">
+                <form method="post" action="/">
+                    <button type="button" class="btn btn-default" id="invitaionAccepted-btn-yes">ok</button>
+                   </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="invitationRejectedModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="invitationRejectedModal_title" class="modal-title text-center"></h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center" id="invitationRejectedModal_Info"></p>
+            </div>
+
+            <div class="modal-footer">
+                <form method="post" action="/">
+                    <button type="button" class="btn btn-default" id="invitaionRejected-btn-yes">ok</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--////////////////////////////////////////////////////////-->
+<div class="container container-margin" style="max-width: 1400px;">
+
+    <div class="row chat-window col-xs-4 col-md-4" id="chat_window" style="margin-left:-50px;">
+        <!--<div class="col-xs-12 col-md-12">-->
+        <div class="panel">
+            <div id ="temponlineuser " class="input-group" style="margin-bottom:0px">
+
+            </div>
+            <div class="list-users"  style=" overflow-y: scroll;max-height:100px;">
+                <table class="table">
+                    <tbody id="onlineuser">
+
+                    </tbody>
+                </table>
+
+            </div>
+        <div  id="box-invasion-chat-div" class=" panel-primary">
+            <h2 class="panel-heading">Discussion</h2>
+            <div id="box-invasion-chat-win" style="margin-bottom: 0px" class="">
+                <div id="messageArea">
+                    <div id="typingMessage" > </div>
+                </div>
+                <input id="user" type="hidden" value="{{userName}}" data-target="#myModal" />
+                <div class="input-group" style="margin-bottom:0px">
+                    <span class="input-group-addon" id="basic-addon1">{{userName}}</span>
+                    <input id="message" style="padding-right:3px;padding-left: 3px" type="text" class="form-control " placeholder="Type your message here..." />
+                    <span class="input-group-btn">
+                                    <input id="emoji" type="image" height="34" style="padding-left: 0;padding-right: 0"  src="/images/emojiicon.png" title="emoji" class="btn btn-default"/>
+                            <button class="btn btn-primary" id="send" >
+                            Send</button>
+                    </span>
+                </div>
+                    <div id="emojiWrapper"></div>
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+
+
+    <div class="row col-xs-4 col-md-4" id="game_area" style="margin-left:0px;">
+        <canvas id="canvas"></canvas>
+
+    </div>
+    
+    <script src="/js/socket/socketclient.js"><{{!}}/script>
+    <script src="/js/invite/invite.js"><{{!}}/script>
+    <script src="/js/chat/chatclient.js"><{{!}}/script>
+    <script src="/js/game/gameclient.js"><{{!}}/script>
+
+    <script src="/js/game/jquery.fireworks.js"><{{!}}/script>
+
+    <div class="row right-panel col-xs-4 col-md-4" id="right_panel_1" style="margin-right:-70px;">
+        <div class="text-center panel sub-right-panel col-xs-4 col-md-4" id="game_options">
+            <form action="#" method="post">
+                <h3><button type="submit" class="btn btn-primary btn-md" id="Leave_Game">Leave Game</button></h3>
+            </form>
+            <h3><button type="submit" class="btn btn-primary btn-md" id="Play">Play</button></h3>
+            <span class="text-center text-info" id="game_msg"> </span>
+        </div>
+        <div class="text-center panel sub-right-panel col-xs-2 col-md-2" id="game_messages" >
+            <h4><span class="text-center text-info "> Turn Status </span></h4>
+            <div id="PlayerTurn" class="text-centr">
+
+            </div>
+        </div>
+
+        <div class="text-center panel sub-right-panel col-xs-4 col-md-4">
+            <h4><span class="text-center text-info" id="P1_name">  </span> </h4>
+            <h4><span class="text-center text-info" id="player1_stats"> </span></h4>
+            <hr>
+            <h4><span class="text-center text-info" id="P2_name">    </span> </h4>
+            <h4><span class="text-center text-info" id="player2_stats"> </span></h4>
+        </div>
+    </div>
+    <div class="Celebration">
+    </div>
+
+
+</div>
+
+

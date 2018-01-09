@@ -13,13 +13,32 @@
   "keywords": [
     "game"
   ],
-  "author": "Abul B S Tarannum, Marvi Islam, Ibtehaj-ul Hasan,",
+  "author": "Abul B S Tarannum, Marvi Islam, Ibtehaj-ul Hasan,Umar Shahid,Niaz Hussain ,Shafiq Aslam",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/monk047/boxinvasion/issues"
   },
   "homepage": "https://github.com/monk047/boxinvasion#readme",
   "dependencies": {
-    "express": "^4.16.2"
+    "bcryptjs": "^2.4.3",
+    "body-parser": "*",
+    "circular-json": "^0.5.1",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "express": "*",
+    "express-handlebars": "^3.0.0",
+    "express-messages": "^1.0.1",
+    "express-session": "^1.15.6",
+    "express-socket.io-session": "^1.3.2",
+    "express-validator": "^4.3.0",
+    "jsonwebtoken": "^8.1.0",
+    "mongodb": "^2.2.34",
+    "mongoose": "^4.13.7",
+    "passport": "^0.4.0",
+    "passport-http": "^0.3.0",
+    "passport-jwt": "^3.0.1",
+    "passport-local": "^1.0.0",
+    "promise": "^8.0.1",
+    "socket.io": "^1.7.4"
   }
 }
