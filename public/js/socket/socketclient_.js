@@ -1,4 +1,4 @@
 let token = document.getElementById('token').innerHTML;
 
 //Establish Connection
-let socket = io(`http://localhost:3000?token=${token}`);
+let socket = io(`https://intense-fortress-53620.herokuapp.com?token=${token}`);
