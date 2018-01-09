@@ -9,7 +9,7 @@
 /*console.log("testct:"+ chatroom);
 console.log("Sokcet id of "+$(document.getElementById('user')).val()+":"+ socketId);*/
 var message = document.getElementById('message');
-//user = "{{userName}}";/*document.getElementById('user');*/
+var user = document.getElementById("user").value;
 btn = document.getElementById('send');
 messageArea = document.getElementById('messageArea');
 feedback = document.getElementById('typingMessage');
@@ -23,7 +23,7 @@ socket.on('chat', function(data){
     //selection it is me or you(other client)
     var msg= manipulateMessage(data.message);
     data.message=msg;
-    if(data.user===$("#user").val())
+    if(data.user===user)
     {
         messageByMe(altUser,data);
     }
@@ -44,10 +44,79 @@ socket.on('not typing', function(){
     console.log("not typing");
     document.getElementById("typingMessage").innerHTML="";
 });
+socket.on('thinking', function(data){
+    typingMessage.innerHTML = '<p><strong>' + data + '</strong> <em style="color:blue"> is thinking to write a message...</em></p>';
+});
+
 $( document ).ready(function() {
+
+    /*
+     var emojiContainer = document.getElementById("onlineuser"),
+     docFragment = document.createDocumentFragment();
+     for (var i = 108; i > 0; i--) {
+     var emojiElement = document.createElement("img");
+     emojiElement.src = "../images/emoji/" + i + ".gif";
+     emojiElement.title = i;
+     docFragment.appendChild(emojiElement);
+     };
+     emojiContainer.appendChild(docFragment);*/
     setInterval(function(){updateTimeAgo()}, 5000);
     //updateTimeAgo();
     user=$("#user").val();
+
+        //invite
+
+        //invite
+    socket.on('tempnewuser', function(data){
+        console.log("data from server :"+data.user);
+        if(data.user===$("#user").val())
+        {
+               let uList = ['user1', 'user2', 'user3'];
+                uList.forEach(function(browser) {
+                        element  = document.getElementById('onlineuser')
+                        let frag = document.createDocumentFragment();
+                        let row = frag.appendChild(document.createElement('tr'));
+                        row.className="info";
+                        let col1 = row.appendChild(document.createElement('td'));
+                        let col2 = row.appendChild(document.createElement('td'));
+                        col1.innerHTML = browser;
+                        col2.innerHTML = '<p align="right"> <button  class=" btn btn-info btn-sm" type="button"> Challenge </button> </p>';
+                    element.appendChild(frag);
+                });
+                console.log("new user on");
+        }
+        else
+        {
+              /*  var element  = document.getElementById('onlineuser'); // assuming ul exists
+                var fragment = document.createDocumentFragment();
+                var browsers = ['Firefox', 'Chrome', 'Opera',
+                    'Safari', 'Internet Explorer'];
+
+                browsers.forEach(function(browser) {
+                    var li = document.createElement('li');
+                    li.textContent = browser;
+                    li.id=browser;
+                    fragment.appendChild(li);
+                });
+
+                element.appendChild(fragment);*/
+                console.log("new user other side");
+        }
+
+    });
+        ///invite
+        /*$( "#inviteuser" ).click(function() {
+            var inviteusername=$("#inviteusername").val().replace(/\s/g, '');
+            console.log("Client JS: "+inviteusername)
+            socket.emit('invitegame', {
+                myToken: $("#token").val(),
+                otherToken:$("#inviteuser").val()
+            });
+            /!*socket.on('playgame', function(){
+             $("#box-invasion-chat-div").fadeIn();
+             });*!/
+             });*/
+        //////chat///////
     $( "#send" ).click(function() {
         var nullMessage=message.value.replace(/\s/g, '');
         if(nullMessage!== "")
@@ -82,7 +151,10 @@ $( document ).ready(function() {
         socket.emit('typing', user);
     });
     $( "#message" ).focusout(function() {
-        socket.emit('not typing');
+        socket.emit('not typing',user);
+    });
+    $( "#message" ).focusin(function() {
+        socket.emit('thinking',user);
     });
 ////////////////////////////////////////////
 //showing emoji by clicking emoji btn

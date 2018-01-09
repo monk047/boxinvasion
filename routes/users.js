@@ -6,7 +6,7 @@ var jwtStrategy = require('passport-jwt').Strategy;
 var extractJwt =  require('passport-jwt').ExtractJwt;
 
 var User = require('../models/user');
-
+var Active = require('../models/active');
 // Register
 router.get('/register', function(req, res){
 	res.render('register');

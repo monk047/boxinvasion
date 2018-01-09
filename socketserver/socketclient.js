@@ -5,6 +5,6 @@ let socket = io(`http://localhost:3000?token=${token}`);
 
 socket.on('connect', function () {
 
-
+	
 
 });

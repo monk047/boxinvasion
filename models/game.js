@@ -3,20 +3,22 @@ var mongoose = require('mongoose');
 
 //Game Schema
 var GameSchema = mongoose.Schema({
-	player: [{
-		name : String,
-		socketid : String,
-		playerid : String
-
-	}],
-	gametype: {
-		type: Boolean
+	acceptedToId : {
+		type : String 
+	},
+	acceptedById : {
+		type : String
 	}
 });
 
 var Game = module.exports = mongoose.model('Game', GameSchema);
 
-module.exports.createGame = function(newUser, callback){
+module.exports.createGame = function(game, callback){
+	game.save(callback);
+}
+
+module.exports.clearTable = function(callback) {
+	Game.remove({}, callback);
 	
 }
 
