@@ -1,10 +1,10 @@
 ## boxinvasion
 
-# How to run boxnvasion
+# How to run boxinvasion
 
 _1_. install node js. 
 
-_2_. install mongo db for local db use.
+_2_. install mongo db.
 
 _3_. clone repository, use `git clone https://github.com/monk047/boxinvasion.git` if you are using Git BASH.
 
