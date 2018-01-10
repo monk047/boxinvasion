@@ -10,8 +10,10 @@ socket.on('playgame' , function (data) {
     //alert("aya");
     player1Name = data.acceptedToUserName;
     player2Name = data.acceptedByUserName;
-    OtherPlayerName = data.acceptedByUserName;
 
+    /*if()
+    OtherPlayerName = data.acceptedByUserName;*/
+    //alert(OtherPlayerName);
     GamePlay = "Two Player";
     TurnStatus = player1Name;
     Player1 = player1Name;
@@ -83,6 +85,13 @@ $( document ).ready(function() {
         {
 
             canvas.addEventListener('click', getPositionForMultiPlayer , true);
+            if(player1Name == CurrentUserName)
+            {
+                OtherPlayerName = player2Name;
+            }
+            else{
+                OtherPlayerName = player1Name;
+            }
             document.getElementById("result").innerHTML = "You are playing with " + OtherPlayerName ;
             document.getElementById("P1_name").innerHTML = player1Name + " Score";
             document.getElementById("P2_name").innerHTML = player2Name + " Score";
@@ -102,8 +111,10 @@ $( document ).ready(function() {
 
         }
 
-
-        document.getElementById("game_msg").innerHTML = "<h3><span> Make a first move </span></h3>";
+        if(player1Name == CurrentUserName)
+            document.getElementById("game_msg").innerHTML = "<h3><span> Make a first move </span></h3>";
+        //else
+            //document.getElementById("game_msg").innerHTML = "<h3><span> Wait for a first move </span></h3>";
 
         $("#Play").hide();
         $("#Leave_Game").show();
@@ -200,11 +211,11 @@ function getPositionForComputer(event)
     IsHorizontal(x, y);
     IsVertical(x, y);
 
-    player2Name = "Com";
+    player2Name = "COM";
     //alert(TurnStatus + " turn");
     if(TurnStatus != CurrentUserName)
     {
-            setTimeout(ComputerTurn, 1000);
+            setTimeout(ComputerTurn, 800);
     }
 
     //update turn message after Player's turn.
@@ -271,25 +282,33 @@ function ComputerTurn(){
     var bComTurn = true;
     var ComputerHorizontalLineNumber;
     var ComputerVerticalLineNumber;
+
     while(bComTurn)
     {
         var res =false;
         var randonNumberX = Math.floor((Math.random() * 500) + 0);
         var randonNumberY = Math.floor((Math.random() * 500) + 0);
+
         ComputerHorizontalLineNumber = Math.floor(randonNumberX / 100);
         ComputerVerticalLineNumber = Math.floor(randonNumberY / 100);
+
         var XVal = randonNumberX % 100;
         var YVal = randonNumberY % 100;
+
         if( (XVal > 20 && XVal < 100)  && (YVal > 0  && YVal < 20) ){
+
             if(IsHorizontal(randonNumberX ,randonNumberY))
                 {
+
                     bComTurn = false;
                 }
         }
         else if( (XVal > 0 && XVal < 20)  && (YVal > 20  && YVal < 100) )
         {
+
             if(IsVertical(randonNumberX, randonNumberY))
                 {
+
                     bComTurn = false;
                 }
         }
@@ -343,8 +362,8 @@ var VerticalLineNumber = 0;
 var count = 0;
 
 
-var HorizontalArrayLineStatus = [ [],[],[],[],[] ]; // Horizontal array
-var VerticalArrayLineStatus = [ [],[],[],[],[] ]; // Vertical array
+var HorizontalArrayLineStatus = [ [], [], [], [], [] ]; // Horizontal array
+var VerticalArrayLineStatus = [ [], [], [], [], [] ]; // Vertical array
 var BoxCapturedArray = [[], [], [], [], [] ];
 
 var Player1Score =0;
@@ -362,15 +381,17 @@ function IsHorizontal(x ,y)
     HorizontalLineNumber = Math.floor(x / 100);
     VerticalLineNumber = Math.floor(y / 100);
 
-    //alert(HorizontalLineNumber + " , " + VerticalLineNumber)
+    //
     var XVal = x % 100;
     var YVal = y % 100;
     if( (XVal > 20 && XVal < 100)  && (YVal > 0  && YVal < 20) )
     {
+        //alert("in hua");
         //ValidMoveBool = true;
         // CHECK FOR ALREADY DRAWN LINE
         var result = validateMove(HorizontalLineNumber , VerticalLineNumber ,true ,false);
         if(!result){
+            //alert(result);
             return false;
         }
         if(CheckBoxCompleted(HorizontalLineNumber , VerticalLineNumber , true  ,false))
@@ -429,6 +450,7 @@ function IsHorizontal(x ,y)
 
 
         return "valid";
+        //alert("aagiya");
     }
     //alert("khtam");
     return true;
@@ -445,10 +467,11 @@ function IsVertical(x ,y)
     var YVal = y % 100;
     if( (XVal > 0 && XVal < 20)  && (YVal > 20  && YVal < 100) )
     {
-
+        //alert("in hua");
         // CHECK FOR ALREADY DRAWN LINE
         var result = validateMove(HorizontalLineNumber , VerticalLineNumber , false ,true);
         if(!result){
+            //alert(result);
             return false;
         }
 
@@ -476,7 +499,7 @@ function IsVertical(x ,y)
 
         if(!IsBoxCompleted )
         {
-            //alert("count incremented");
+           // alert("count incremented");
             count++;
 
             if(count%2 == 0)
@@ -570,31 +593,30 @@ function CalculateScore()
 
     if(Player1Score+Player2Score == 25)
     {
-        if(Player1Score > Player2Score)
+        if(GamePlay == "Two Player")
         {
-
-            /*if(GamePlay == "Two Player")
-            {
-                socket.emit('WinState' , function(data){
-                    winstate : false;
-                });
-            }*/
-            //alert(document.getElementById("user").value);
-            WinningUpdate(document.getElementById("user").value,true);
             TurnStatus = "";
+            WinningUpdate(document.getElementById("user").value,true);
 
         }
         else
         {
-            WinningUpdate(document.getElementById("user").value,false);
-            TurnStatus = "";
-            /*if(GamePlay == "Two Player")
+            if(Player1Score > Player2Score)
             {
-                socket.emit('WinState' , function(data){
-                    winstate : true;
-                });
-            }*/
+                TurnStatus = "";
+                WinningUpdate(document.getElementById("user").value,true);
+
+
+            }
+            else
+            {
+                TurnStatus = CurrentUserName;
+                WinningUpdate(document.getElementById("user").value,false);
+
+
+            }
         }
+
     }
    // alert(Player1Score);
 }
@@ -632,13 +654,13 @@ function CheckBoxCompleted(HLineNo , VLineNo , isHorizontal , isVertical){
             if(count%2 == 0)
             {
                 c.fillStyle = 'rgba(0, 0, 0, 1.0)';//'#131a67';
-                c.fillText(player1Name,(PlayerNoRectX - 8)+ (HLineNo * 100) ,PlayerNoRectY + ((VLineNo) *100));
+                c.fillText(player1Name,(PlayerNoRectX - 10)+ (HLineNo * 100) ,PlayerNoRectY + ((VLineNo) *100));
                 c.fillStyle = 'rgba(255, 0, 0, .4)';//'#131a67';
             }
             else
             {
                 c.fillStyle = 'rgba(0, 0, 0, 1.0)';//'#131a67';
-                c.fillText(player2Name, (PlayerNoRectX - 8) + (HLineNo * 100) ,PlayerNoRectY + ((VLineNo) *100));
+                c.fillText(player2Name, (PlayerNoRectX - 10) + (HLineNo * 100) ,PlayerNoRectY + ((VLineNo) *100));
                 c.fillStyle = 'rgba(0, 0, 255, .4)';//'#131a67';
             }
 
@@ -661,7 +683,7 @@ function CheckBoxCompleted(HLineNo , VLineNo , isHorizontal , isVertical){
             {
                 c.fillStyle = 'rgba(0, 0, 0, 1.0)';//'#131a67';
 
-                c.fillText(player1Name,(PlayerNoRectX - 8)+ (HLineNo * 100) ,PlayerNoRectY + ((VLineNo -1) *100));
+                c.fillText(player1Name,(PlayerNoRectX - 10)+ (HLineNo * 100) ,PlayerNoRectY + ((VLineNo -1) *100));
                 c.fillStyle = 'rgba(255, 0, 0, .4)';//'#131a67';
             }
             else
@@ -669,7 +691,7 @@ function CheckBoxCompleted(HLineNo , VLineNo , isHorizontal , isVertical){
             {
                 c.fillStyle = 'rgba(0, 0, 0, 1.0)';//'#131a67';
 
-                c.fillText(player2Name, (PlayerNoRectX - 8) + (HLineNo * 100) ,PlayerNoRectY + ((VLineNo -1) *100));
+                c.fillText(player2Name, (PlayerNoRectX - 10) + (HLineNo * 100) ,PlayerNoRectY + ((VLineNo -1) *100));
                 c.fillStyle = 'rgba(0, 0, 255, .4)';//'#131a67';
             }
 
@@ -690,14 +712,14 @@ function CheckBoxCompleted(HLineNo , VLineNo , isHorizontal , isVertical){
             {
                 c.fillStyle = 'rgba(0, 0, 0, 1.0)';//'#131a67';
 
-                c.fillText(player1Name,(PlayerNoRectX - 8) + (HLineNo * 100) ,PlayerNoRectY + ((VLineNo) *100));
+                c.fillText(player1Name,(PlayerNoRectX - 10) + (HLineNo * 100) ,PlayerNoRectY + ((VLineNo) *100));
                 c.fillStyle = 'rgba(255, 0, 0, .4)';//'#131a67';
             }
             else
             {
                 c.fillStyle = 'rgba(0, 0, 0, 1.0)';//'#131a67';
 
-                c.fillText(player2Name, (PlayerNoRectX - 8) + (HLineNo * 100) ,PlayerNoRectY + ((VLineNo) *100));
+                c.fillText(player2Name, (PlayerNoRectX - 10) + (HLineNo * 100) ,PlayerNoRectY + ((VLineNo) *100));
                 c.fillStyle = 'rgba(0, 0, 255, .4)';//'#131a67';
             }
             // c.fillStyle = 'rgba(255, 0, 0, .4)';//'#131a67';
@@ -716,14 +738,14 @@ function CheckBoxCompleted(HLineNo , VLineNo , isHorizontal , isVertical){
             {
                 c.fillStyle = 'rgba(0, 0, 0, 1.0)';//'#131a67';
 
-                c.fillText(player1Name,(PlayerNoRectX - 8) + ( (HLineNo - 1) * 100) ,PlayerNoRectY + (VLineNo*100));
+                c.fillText(player1Name,(PlayerNoRectX - 10) + ( (HLineNo - 1) * 100) ,PlayerNoRectY + (VLineNo*100));
                 c.fillStyle = 'rgba(255, 0, 0, .4)';//'#131a67';
             }
             else
             {
                 c.fillStyle = 'rgba(0, 0, 0, 1.0)';//'#131a67';
 
-                c.fillText(player2Name,(PlayerNoRectX - 8) + ( (HorizontalLineNumber - 1) * 100) ,PlayerNoRectY + (VLineNo*100));
+                c.fillText(player2Name,(PlayerNoRectX - 10) + ( (HorizontalLineNumber - 1) * 100) ,PlayerNoRectY + (VLineNo*100));
                 c.fillStyle = 'rgba(0, 0, 255, .4)';//'#131a67';
             }
             //c.fillStyle = 'rgba(255, 0, 0, .4)';//'#131a67';
